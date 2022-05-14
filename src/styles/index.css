@@ -1,0 +1,22 @@
+/* principal styles */
+.app {
+	box-sizing: border-box;
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	flex-wrap: wrap;
+	overflow-x: hidden;
+}
+.first, 
+.second {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 2.5%;
+	width: 50%;
+	flex-direction: column;
+}
+
+.btn-container {
+	display: flex;
+}
