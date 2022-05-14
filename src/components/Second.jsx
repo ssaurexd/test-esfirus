@@ -42,7 +42,8 @@ export const Second = () => {
 				</button>
 			</div>
 			{/* DATA */}
-			<div className='container' >
+			<div className='container mt-5 ' >
+				<h3>DATOS:</h3>
 				<div className='accordion accordion-flush' id='accordionExample' >
 					{
 						data.length && data.map( ( item, index ) => (
