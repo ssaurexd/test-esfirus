@@ -29,9 +29,9 @@ const App = () => {
 
 		const newElement = initialState.find( el => el.id === elementId )
 
-		if( !newElement || initialState.length > 1 ) return
+		if( !newElement ) return
 
-		const newId = initialState.length + 1
+		const newId = 2
 		const newInitialState = [
 			...initialState,
 			{
@@ -45,19 +45,15 @@ const App = () => {
 
 	/* 3.- Queremos añadir un elemento a los items del elemento copiado en el paso 2 */
 	const addItemToElement2Items = ( id, itemToAdd ) => {
-		
-		const data = initialState.find( item => item.id === id )
-
-		if( !data ) return
 
 		const newInitialState = initialState.map( item => {
 				
 			if( item.id === id ) {
-
+				
 				const itemId = item.items.length + 1
 
 				return {
-					...data,
+					...item,
 					items: [ ...item.items, {
 						...itemToAdd,
 						id: itemId,
