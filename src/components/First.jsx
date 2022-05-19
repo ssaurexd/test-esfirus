@@ -44,7 +44,7 @@ export const First = () => {
 			/>
 
 			{/* DATA */}
-			<DataList />
+			<DataList accordionId={'first'} />
 		</div>
 	)
 }

@@ -45,7 +45,7 @@ export const Second = () => {
 				onClickBtn4={ onClickButton4 }  
 			/>
 			{/* DATA */}
-			<DataList />
+			<DataList accordionId={'second'} />
 		</div>
 	)
 }
