@@ -25,56 +25,51 @@ const App = () => {
 
 	/* functions */
 	/* 2.- Queremos poder copiar el primer elemento y agregarlo como uno nuevo al final */
-	const setFirstElementToFinal = ( elementId, items = [] ) => {
+	const setFirstElementToFinal = ( elementId ) => {
 
-		initialState.forEach( ( item ) => {
+		const newElement = initialState.find( el => el.id === elementId )
 
-			const newElement = item['items']?.find( el => el.id === elementId )
+		if( !newElement || initialState.length > 1 ) return
 
-			if( !newElement ) return
+		const newId = initialState.length + 1
+		const newInitialState = [
+			...initialState,
+			{
+				...newElement,
+				id: newId
+			}
+		]
 
-			setInitialState( preInitialState => {
-
-				const data = preInitialState.find( item => item.id === 2 )
-			
-				if( data ) return preInitialState
-
-				const newInitialState = [
-					...preInitialState,
-					{
-						...newElement,
-						id: item.id + 1, //id 2
-						items
-					}
-				]
-
-				return newInitialState
-			})
-		})
+		setInitialState( newInitialState )
 	}
 
 	/* 3.- Queremos añadir un elemento a los items del elemento copiado en el paso 2 */
 	const addItemToElement2Items = ( id, itemToAdd ) => {
 		
-		setInitialState( preInitialState => {
-			
-			const data = preInitialState.find( item => item.id === id )
-			
-			if( !data ) return preInitialState
+		const data = initialState.find( item => item.id === id )
 
-			return preInitialState.map( item => {
+		if( !data ) return
+
+		const newInitialState = initialState.map( item => {
 				
-				if( item.id === id ) {
+			if( item.id === id ) {
 
-					return {
-						...data,
-						items: [ ...item.items, itemToAdd ]
-					}
+				const itemId = item.items.length + 1
+
+				return {
+					...data,
+					items: [ ...item.items, {
+						...itemToAdd,
+						id: itemId,
+						name: `Nuevo elemento ${ itemId }`
+					}]
 				}
+			}
 
-				return item
-			})
+			return item
 		})
+
+		setInitialState( newInitialState )
 	}
 
 	/* 4.- Queremos poder guardar los elementos, llamando a la api para actualizar ( inventar endpoint ) */
@@ -102,6 +97,10 @@ const App = () => {
 		}
 	}
 
+	/* regresar el stado al inicial */
+	const resetState = (  ) => setInitialState( INITIAL_STATE )
+	
+
 	return (
 		<InitContext.Provider
 			value={{
@@ -110,14 +109,37 @@ const App = () => {
 				methods: {
 					setFirstElementToFinal,
 					addItemToElement2Items,
-					updateElementsByApi
+					updateElementsByApi,
+					resetState
 				}
 			}}
 		>
-			<div className='container-fluid app' >
-				<First />
-				{/* 5.- Crear otro componente que no sea pariente del actual y que nos muestre y modifique la misma informacion ( lo pase en uno pasa el otro ) */}
-				<Second />
+			<div className='container' >
+				<div className='row' >
+					<div className='col-12 mt-5 ' >
+						<h3 className='text-center'>INFORMACIÓN</h3>
+						<ul className="list-group">
+							<li className="list-group-item">Botón No. 2: Queremos poder copiar el primer elemento y agregarlo como uno nuevo al final</li>
+							<li className="list-group-item">Botón No. 3: Queremos añadir un elemento a los items del elemento copiado en el paso 2</li>
+							<li className="list-group-item">Botón No. 4: Queremos poder guardar los elementos, llamando a la api para actualizar ( inventar endpoint, endpoint = https://jsonplaceholder.typicode.com/posts/4 )</li>
+							<li className="list-group-item">Botón No. 4: tambien cumple con la condicion No. 5 - Crear otro componente que no sea pariente del actual y que nos muestre y modifique la misma informacion ( lo pase en uno pasa el otro )</li>
+
+						</ul>
+						<div className='container d-flex justify-content-center m-5' >
+							<button
+								className='btn btn-outline-danger'
+								onClick={ resetState }
+							>
+								Resetear
+							</button>
+						</div>
+					</div>
+
+					{/* COMPONENTS */}
+					<First />
+					{/* 5.- Crear otro componente que no sea pariente del actual y que nos muestre y modifique la misma informacion ( lo pase en uno pasa el otro ) */}
+					<Second />
+				</div>
 			</div>
 		</InitContext.Provider>
 	)
